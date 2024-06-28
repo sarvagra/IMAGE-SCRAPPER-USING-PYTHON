@@ -6,9 +6,26 @@ import logging
 flipkart_url= "https://www.flipkart.com/search?q="+"macbooks"
 urlclient=uReq(flipkart_url)
 print(urlclient)
-#to get data dump, use urlclient.read()
+#to get data dump, use urlclient.read().
 flipkart_page=urlclient.read()
 
 flipkart_html=bs(flipkart_page,'html.parser')
 
-#how to create a click
+#how to create a click.
+
+product_link="https://www.flipkart.com"+"/apple-2022-macbook-air-m2-8-gb-ssd-256-gb-ssd-mac-os-monterey-mlxw3hn-a/p/itmc2732c112aeb1?pid=COMGFB2GSG8EQXCQ&amp;lid=LSTCOMGFB2GSG8EQXCQJWHH2F&amp;marketplace=FLIPKART&amp;q=macbooks&amp;store=6bo%2Fb5g&amp;srno=s_1_3&amp;otracker=search&amp;otracker1=search&amp;fm=organic&amp;iid=19a8002f-354b-4ea8-9960-9f94bfb4b421.COMGFB2GSG8EQXCQ.SEARCH&amp;ppt=hp&amp;ppn=homepage&amp;ssid=ukuigx4dts0000001719556654265&amp;qH=76885621d5a99940"
+bigbox=flipkart_html.findAll("div",{"class":"cPHDOP col-12-12"})
+print(len(bigbox))
+product_req=print(bigbox[3].div.div.div.a['href']) 
+print(product_link) #prints product link.
+
+# to get all url's use for loop in bigbox length range.
+
+product_req=requests.get(product_link)
+product_html=bs(product_req.text,'html.parser')
+comment_box=product_html.findAll("div",{"class":"_8-rIO3"})#store the data 
+print(len(comment_box))#prints the number of reviews
+print(comment_box)
+#to get the name of the customer who reviewed.
+
+
