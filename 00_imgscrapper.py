@@ -2,9 +2,11 @@ import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 import logging 
-
+logging.basicConfig(filename="00_logging.log", level=logging.DEBUG,format='%(asctime)s%(message)s')
 flipkart_url= "https://www.flipkart.com/search?q="+"macbooks"
+
 urlclient=uReq(flipkart_url)
+
 print(urlclient)
 #to get data dump, use urlclient.read().
 flipkart_page=urlclient.read()
@@ -23,9 +25,18 @@ print(product_link) #prints product link.
 
 product_req=requests.get(product_link)
 product_html=bs(product_req.text,'html.parser')
-comment_box=product_html.findAll("div",{"class":"_8-rIO3"})#store the data 
-print(len(comment_box))#prints the number of reviews
-print(comment_box)
+comment_box=product_html.findAll("div",{"class":"RcXBOT"})
+
+print(len(comment_box)) #finding number of comment boxes
+
+print(comment_box[0].div.div.div.div.text) #extracting rating
+print(comment_box[0].div.div.div.p.text) # extracting header
+print(comment_box[0].div.div.find_all("div",{"class":""})[0].div.text) 
+
+for i in comment_box:
+    print("name:"+i.div.div.find_all('p',{"class":"_2NsDsF AwS1CA"})[0].text) #printing names of all customers
+    print("rating:"+ i.div.div.div.div.text) #printing rating given by all customers
+    print(i.div.div.div.p.text)
 #to get the name of the customer who reviewed.
 
 
